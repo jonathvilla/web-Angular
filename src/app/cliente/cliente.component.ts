@@ -15,19 +15,19 @@ export class ClienteComponent implements OnInit {
   cliente: Cliente = {}as Cliente;
   crearCliente:boolean = false;
   btnEditar:boolean = false;
-  submitte:boolean = true;
+  submitte:boolean = false;
 
   constructor(private formBuilder:FormBuilder, private apiCliente: ApiClienteService) { }
   formulario = this.formBuilder.group({
-    Direccion: ['',Validators.required],
-    Telefono: ['',Validators.required],
-    Nombre: ['',Validators.required],
-    Email: ['',Validators.required],
-    NroDeIdentificacion: ['',Validators.required],
-    FechaNacimiento: ['',Validators.required],
-    FechaInscripcion: ['',Validators.required],
-    TemaInteres: ['',Validators.required],
-    Etado: ['',Validators.required]
+    direccion: ['',Validators.required],
+    telefono: ['',Validators.required],
+    nombre: ['',Validators.required],
+    email: ['',Validators.required],
+    nroDeIdentificacion: ['',Validators.required],
+    fechaNacimiento: ['',Validators.required],
+    fechaInscripcion: ['',Validators.required],
+    temaInteres: ['',Validators.required],
+    estado: ['',Validators.required]
   })
 
   ngOnInit(): void {
@@ -42,13 +42,14 @@ export class ClienteComponent implements OnInit {
     return this.formulario.controls//este metodo  es para poner un alias al forulario
   }
   
-  resetFormulario(){
+  resetFormulario(){ // metodo para limpiar un formulario
     this.formulario.reset();
   }
 
   mostrarClientes(){
     this.btnEditar=false;
     this.crearCliente=true;
+    this.resetFormulario();
     
   }
 
@@ -97,8 +98,15 @@ export class ClienteComponent implements OnInit {
   }
 
   inavilitarCliente(cliente:Cliente){
-    this.apiCliente.inavilitarCliente(cliente.id).subscribe(Response =>{
-      
+    this.apiCliente.inavilitarCliente(cliente.id).subscribe(response =>{
+     
+        if(response.exito == 0){
+          console.log(response.mensaje);
+          return;
+        }
+        alert(response.exito)
+        this.GetCliente();
+
     })
 
   }

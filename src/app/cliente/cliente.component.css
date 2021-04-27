@@ -30,6 +30,10 @@ body{
     border: 1px solid #cccccc;
   
   }
+
+  .container{
+    width: 80%;
+  }
   
   /* #advanced-search-form .form-group{
   margin-bottom: 20px;
